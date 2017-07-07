@@ -231,6 +231,50 @@ if (estaNoLocal) {
 
 }
 
+
+/** * Verifica se a hora inicial é menor que a final. */
+/* creditos função */
+//http://www.sistemaseweb.com.br/Pagina/Detalhes/50/calculos-com-horas-em-javascript
+function isHoraInicialMenorHoraFinal(horaInicial, horaFinal)
+{
+	horaIni = horaInicial.split(':'); horaFim = horaFinal.split(':');
+
+	// Verifica as horas. Se forem diferentes, é só ver se a inicial
+	// é menor que a final.
+	hIni = parseInt(horaIni[0], 10);
+	hFim = parseInt(horaFim[0], 10);
+	if(hIni != hFim)
+		return hIni < hFim;
+
+	// Se as horas são iguais, verifica os minutos então.
+	mIni = parseInt(horaIni[1], 10);
+	mFim = parseInt(horaFim[1], 10);
+	if(mIni != mFim)
+		return mIni < mFim;
+}
+
+function diferencaHoras(horaInicial, horaFinal)
+{
+	// Tratamento se a hora inicial é menor que a final
+	if( ! isHoraInicialMenorHoraFinal(horaInicial, horaFinal) )
+	{
+		aux = horaFinal;
+		horaFinal = horaInicial;
+		horaInicial = aux;
+	}
+	hIni = horaInicial.split(':');
+	hFim = horaFinal.split(':');
+	horasTotal = parseInt(hFim[0], 10) - parseInt(hIni[0], 10);
+	minutosTotal = parseInt(hFim[1], 10) - parseInt(hIni[1], 10);
+	if(minutosTotal < 0)
+	{
+		minutosTotal += 60; horasTotal -= 1;
+	}
+	horaFinal = completaZeroEsquerda(horasTotal) + ":" + completaZeroEsquerda(minutosTotal);
+	return horaFinal;
+}
+
+
 function pegarHora(){
   //captura horario atual
   var tempo = new Date();
@@ -241,8 +285,14 @@ function pegarHora(){
 }
 
 
+function calculador(categoria, vinculo, entrada, saida){
+
+}
+
+//Metodo para confirma a saida do veiculo e realizar calculo
 function confirmarEntrada(){
 
+saidaVeiculo("ADB-3840","15:30");
 }
 
 
@@ -288,7 +338,7 @@ function imprimirEstacionamento(){
 
 registroEntrada("ADB-3240","22:30");
 registroEntrada("ADB-3840","20:30");
-saidaVeiculo("ADB-3240","12:30");
+saidaVeiculo("ADB-3240",pegarHora());
 imprimirDadosGerais();
 imprimirEstacionamento();
 console.log(pegarHora());
