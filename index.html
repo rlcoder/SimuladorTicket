@@ -9,10 +9,61 @@
   rel="stylesheet"
   integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
   crossorigin="anonymous">
-
+  <style media="screen">
+    h1{
+      text-align:  center;
+    }
+  </style>
   <title>Ticket System</title>
 </head>
 <body>
+<section>
+  <div class="container">
+      <h3>Ticket System</h3>
+      <div id="dadosGerais" class="">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Categoria</th>
+              <th>Vinculo</th>
+              <th>Horario de Entrada</th>
+              <th>Horario de Saida</th>
+              <th>Valor Total</th>
+            </tr>
+          </thead>
+          <tbody>
+          <!-- dados  -->
+          </tbody>
+        </table>
+      </div>
+      <!-- registrar Entrada de Veiculo -->
+<div class="">
+  <div class="form-group">
+  <label class="col-md-4 control-label" for="idEntrada">Registro de Entrada</label>
+  <div class="col-md-5">
+  <input id="idEntrada" name="idEntrada" type="text" placeholder="Entre com a placa do veiculo para da entrada no Estacionamento" class="form-control input-md" required="">
+  <br>
+  <button type="button" class="btn btn-primary" name="button">Confirmar Entrada</button>
+  </div>
+
+</div>
+
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="idSaida">Confirmar Saida</label>
+  <div class="col-md-5">
+  <input id="idSaida" name="idSaida" type="text" placeholder="Entre com a placa do veiculo para Registrar a saida do Estacionamento" class="form-control input-md" required="">
+  <br>
+  <button type="button" class="btn btn-primary" name="button">Confirmar Saida</button>
+  </div>
+</div>
+
+  </div>
+</section>
+
 
 <!-- Cdn Bootstrap JS -->
 <script
@@ -26,6 +77,7 @@ crossorigin="anonymous">
 </script>
 <!-- CARRAGAMENTO JAVASCRIPT -->
 <script type="text/javascript">
+
 _retornoPesquisa = new Array();
 //define um valor zero para todos os vinculo
 _valoresVinculo = new Object();
@@ -159,11 +211,29 @@ if (estaNoLocal) {
 
 }
 
+//Metodo para imprimir dados na tabela
+function imprimirResultado(){
+  i = 0;
+  while (i < arrVeiculos.length) {
+    $("#dadosGerais tbody").append(
+      '<tr>' +
+        '<td>'+ arrVeiculos[i][0] +'</td>'+
+        '<td>'+ arrVeiculos[i][1] +'</td>'+
+        '<td>'+ arrVeiculos[i][2] +'</td>'+
+        '<td>'+ arrVeiculos[i][3] +'</td>'+
+        '<td>'+ arrVeiculos[i][4] +'</td>'+
+      '</tr>'
+    )
+    i++
+  }
+}
+
 //Registros
 
 registroEntrada("ADB-3240","22:30");
 registroEntrada("ADB-3840","20:30");
 saidaVeiculo("ADB-3240","12:30");
+imprimirResultado();
 //saidaVeiculo("ADB-3840","15:30");
 
 
