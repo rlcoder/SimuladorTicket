@@ -14,9 +14,6 @@
 </head>
 <body>
 
-
-
-
 <!-- Cdn Bootstrap JS -->
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -29,7 +26,21 @@ crossorigin="anonymous">
 </script>
 <!-- CARRAGAMENTO JAVASCRIPT -->
 <script type="text/javascript">
+//define um valor zero para todos os vinculo
+_valoresVinculo = new Object();
+_valoresVinculo.aluno = 0;
+_valoresVinculo.funcionario = 0;
+_valoresVinculo.professor = 0;
+_valoresVinculo.visitante = 0;
 
+//Cadastrando veiculos em array Multidimensional
+var arrVeiculos =  new Array(
+  ['ADB-3340','1A', 'aluno', '00:00', '00:00' ],
+  ['ACD-3740','2B', 'funcionario', '00:00', '00:00'],
+  ['ADB-3240','3C', 'professor', '00:00', '00:00' ],
+  ['ADB-3840','4D', 'visitante', '00:00', '00:00' ]
+)
+console.log(arrVeiculos[0]);
 //Adiciona os valores de cada categoria em um objeto
 var _categoriaVeiculo = new Object();
 _categoriaVeiculo.cat1A = 0.50;
@@ -37,10 +48,9 @@ _categoriaVeiculo.cat2B = 1.00;
 _categoriaVeiculo.cat3C = 1.50;
 _categoriaVeiculo.cat4D = 2.00;
 
-//Adiciona os valores de descontos para aqueles que possuem vinculo com a universidade
+//Adiciona os valores de descontos de acordo com o vinculo com a universidade
 function vinculoUniversidade(tempo){
-  //define um valor zero para todos os vinculo
-  _valoresVinculo = new Object();
+
   //até 4 horas de permanencia
   if (tempo <=4){
     _valoresVinculo.aluno = 20;
@@ -72,6 +82,39 @@ function calculoPorcentagem(valorTotalDeHoras, objComPorcentagem ){
   total = valor-(porcentagem*result);
   return total
 }
+//Metodo para registrar entrada do Veiculo
+function registroEntrada (placaVeiculo, horarioEntrada){
+var indexVeiculo;
+var veiculoExiste = false;
+
+   var i = 0;//Percorre o array e verifica se o veiculo existe
+   while ( i < arrVeiculos.length) {
+     //verifica se existe o valor dentro do array
+     veiculoExiste = arrVeiculos[i].includes(placaVeiculo);
+     indexVeiculo = i;//adiciona a posição  em que o valor foi encontrado
+     //se o array foi encontrado para o loop
+     if (veiculoExiste == true){
+       break;
+     }
+     //incrementa a variavel
+     i++;
+   }
+     //se o veiculo existe for = true , adicione o horario de entrada
+    if (veiculoExiste) {
+       arrVeiculos[indexVeiculo][3] = horarioEntrada;
+       console.log("Veiculo Localizado:");
+       console.log(arrVeiculos[indexVeiculo]);
+    //se não exiba alguma mensagem ou metodo para cadastrar um veiculo
+    }else {
+       console.log("O Veiculo não existe, chama metodo de cadastrar");
+    }
+
+}
+
+registroEntrada("ADB-3240","22:30");
+
+
+
 console.log(vinculoUniversidade(6));
 console.log(_categoriaVeiculo);
 </script>
