@@ -123,38 +123,7 @@ var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
     }
 
 }
-/*
-function registroEntrada (placaVeiculo, horarioEntrada){
-var indexVeiculo;
-var veiculoExiste = false;
-
-   var i = 0;//Percorre o array e verifica se o veiculo existe
-   while ( i < arrVeiculos.length) {
-     //verifica se existe o valor dentro do array
-     veiculoExiste = arrVeiculos[i].includes(placaVeiculo);
-     indexVeiculo = i;//adiciona a posição  em que o valor foi encontrado
-     //se o array foi encontrado para o loop
-     if (veiculoExiste == true){
-       break;
-     }
-     //incrementa a variavel
-     i++;
-   }
-     //se o veiculo existe for = true , adicione o horario de entrada
-    if (veiculoExiste) {
-       arrVeiculos[indexVeiculo][3] = horarioEntrada;
-       arrVeiculosNoEstacionamento.push(arrVeiculos[indexVeiculo]);
-       console.log("Veiculo Localizado:");
-       console.log(arrVeiculos[indexVeiculo]);
-    //se não exiba alguma mensagem ou metodo para cadastrar um veiculo
-    }else {
-       console.log("O Veiculo não existe, chama metodo de cadastrar");
-    }
-
-}
-*/
 //Metodo para registrar saida do veiculo do Estacionamento
-
 function saidaVeiculo(placaVeiculo, horarioSaida){
 var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
 var indexVeiculo = pesquisarVeiculo(placaVeiculo)[1];
@@ -191,7 +160,7 @@ if (estaNoLocal) {
 }
 
 //Registros
- 
+
 registroEntrada("ADB-3240","22:30");
 registroEntrada("ADB-3840","20:30");
 saidaVeiculo("ADB-3240","12:30");
