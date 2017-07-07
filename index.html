@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Cdn Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+  crossorigin="anonymous">
+
+  <title>Ticket System</title>
+</head>
+<body>
+
+
+
+
+<!-- Cdn Bootstrap JS -->
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+crossorigin="anonymous">
+</script>
+<!-- CARRAGAMENTO JAVASCRIPT -->
+<script type="text/javascript">
+/* calculo porcentagem
+var valor = 4531.95
+var porcentagem = 20
+var result, total;
+result = valor/100;
+total = valor-(porcentagem*result);
+alert(total);
+*/
+
+//Adiciona os valores de cada categoria em um objeto
+var _categoriaVeiculo = new Object();
+_categoriaVeiculo.cat1A = 0.50;
+_categoriaVeiculo.cat2B = 1.00;
+_categoriaVeiculo.cat3C = 1.50;
+_categoriaVeiculo.cat4D = 2.00;
+//Adiciona os valores de descontos para aqueles que possuem vinculo com a universidade
+
+function vinculoUniversidade(tempo){
+  //define um valor zero para todos os vinculo
+  _valoresVinculo = new Object();
+  _valoresVinculo.aluno = 0;
+  _valoresVinculo.funcionario = 0;
+  _valoresVinculo.professor = 0;
+  _valoresVinculo.visitante = 0;
+  //até 4 horas de permanencia
+  if (tempo <=4){
+    _valoresVinculo.aluno = 20;
+    _valoresVinculo.funcionario = 10;
+    _valoresVinculo.professor = 10;
+    _valoresVinculo.visitante = 0;
+  //entre 4:1 e 6 horas de permanencia
+}else if  (tempo >4 && tempo <=6) {
+    _valoresVinculo.aluno = 30;
+    _valoresVinculo.funcionario = 10;
+    _valoresVinculo.professor = 10;
+    _valoresVinculo.visitante = 0;
+  //mais de 6 horas de permanencia
+} else if (tempo >6) {
+    _valoresVinculo.aluno = 40;
+    _valoresVinculo.funcionario = 40;
+    _valoresVinculo.professor = 40;
+    _valoresVinculo.visitante = 0;
+  }
+  return _valoresVinculo;
+}
+console.log(vinculoUniversidade(6));
+console.log(_categoriaVeiculo);
+
+</script>
+</body>
+</html>
