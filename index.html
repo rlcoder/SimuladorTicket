@@ -29,14 +29,6 @@ crossorigin="anonymous">
 </script>
 <!-- CARRAGAMENTO JAVASCRIPT -->
 <script type="text/javascript">
-/* calculo porcentagem
-var valor = 4531.95
-var porcentagem = 20
-var result, total;
-result = valor/100;
-total = valor-(porcentagem*result);
-alert(total);
-*/
 
 //Adiciona os valores de cada categoria em um objeto
 var _categoriaVeiculo = new Object();
@@ -44,15 +36,11 @@ _categoriaVeiculo.cat1A = 0.50;
 _categoriaVeiculo.cat2B = 1.00;
 _categoriaVeiculo.cat3C = 1.50;
 _categoriaVeiculo.cat4D = 2.00;
-//Adiciona os valores de descontos para aqueles que possuem vinculo com a universidade
 
+//Adiciona os valores de descontos para aqueles que possuem vinculo com a universidade
 function vinculoUniversidade(tempo){
   //define um valor zero para todos os vinculo
   _valoresVinculo = new Object();
-  _valoresVinculo.aluno = 0;
-  _valoresVinculo.funcionario = 0;
-  _valoresVinculo.professor = 0;
-  _valoresVinculo.visitante = 0;
   //até 4 horas de permanencia
   if (tempo <=4){
     _valoresVinculo.aluno = 20;
@@ -74,9 +62,18 @@ function vinculoUniversidade(tempo){
   }
   return _valoresVinculo;
 }
+
+//Metodo para subtrair a porcentagem de vinculo
+function calculoPorcentagem(valorTotalDeHoras, objComPorcentagem ){
+  var valor = valorTotalDeHoras;
+  var porcentagem = objComPorcentagem;
+  var result, total;
+  result = valor/100;
+  total = valor-(porcentagem*result);
+  return total
+}
 console.log(vinculoUniversidade(6));
 console.log(_categoriaVeiculo);
-
 </script>
 </body>
 </html>
