@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- Cdn Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-  crossorigin="anonymous">
+  <!-- Cdn Materialize CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css" />
   <style media="screen">
     h1{
       text-align:  center;
+    }
+    .form-entrada{
+
+    }
+    .form-saida{
+
     }
   </style>
   <title>Ticket System</title>
@@ -21,7 +24,7 @@
   <div class="container">
       <h3>Ticket System</h3>
       <br>
-      <h4>Estacionamento</h4>
+      <h4>Dados Gerais</h4>
       <div id="dadosGerais" class="">
         <table class="table">
           <thead>
@@ -40,7 +43,7 @@
         </table>
       </div>
       <br>
-      <h4>Estacionamento</h4>
+      <h4>Veiculos no Estacionamento</h4>
       <br>
       <div id="estacionamento" class="">
         <table class="table">
@@ -58,43 +61,41 @@
         </table>
       </div>
       <!-- registrar Entrada de Veiculo -->
-<div class="">
+<div class="form-entrada">
   <div class="form-group">
-  <label class="col-md-4 control-label" for="idEntrada">Registro de Entrada</label>
-  <div class="col-md-5">
+  <label class="control-label" for="idEntrada">Registro de Entrada</label>
   <input id="idEntrada" name="idEntrada" type="text" placeholder="Entre com a placa do veiculo para da entrada no Estacionamento" class="form-control input-md" required="">
   <br>
-  <button type="button" class="btn btn-primary" name="button">Confirmar Entrada</button>
+  <div class="form-group">
+    <label for="horaEntrada">Informe a hora de Entrada</label>
+    <input type="time" name="horaEntrada" id="horaEntrada">
   </div>
-
+  <br>
+  <button type="button" class="btn waves-effect" name="button">Confirmar Entrada</button>
 </div>
-
 </div>
-
+<br>
 <!-- Text input-->
+<div class="form-saida">
 <div class="form-group">
-  <label class="col-md-4 control-label" for="idSaida">Confirmar Saida</label>
-  <div class="col-md-5">
+  <label class="col s4 control-label" for="idSaida">Confirmar Saida</label>
   <input id="idSaida" name="idSaida" type="text" placeholder="Entre com a placa do veiculo para Registrar a saida do Estacionamento" class="form-control input-md" required="">
   <br>
-  <button type="button" class="btn btn-primary" name="button">Confirmar Saida</button>
-  </div>
+  <button type="button" class="btn waves-effect" name="button">Confirmar Saida</button>
 </div>
-
+</div>
+<div>
   </div>
 </section>
 
 
-<!-- Cdn Bootstrap JS -->
+
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-<script
-src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-crossorigin="anonymous">
-</script>
+  <!-- Cdn Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 <!-- CARRAGAMENTO JAVASCRIPT -->
 <script type="text/javascript">
 
@@ -231,48 +232,55 @@ if (estaNoLocal) {
 
 }
 
+//calculo de horas
+function hora(horaIncial, horaFinal){
+	//separa a hora dos minutos
+	arrHoraInicio = horaIncial.split(':');
+	arrHoraFinal = horaFinal.split(':');
 
-/** * Verifica se a hora inicial é menor que a final. */
-/* creditos função */
-//http://www.sistemaseweb.com.br/Pagina/Detalhes/50/calculos-com-horas-em-javascript
-function isHoraInicialMenorHoraFinal(horaInicial, horaFinal)
-{
-	horaIni = horaInicial.split(':'); horaFim = horaFinal.split(':');
+	arrHoraInicio[0] = parseInt(arrHoraInicio[0]);
+	arrHoraInicio[1] = parseInt(arrHoraInicio[1]);
 
-	// Verifica as horas. Se forem diferentes, é só ver se a inicial
-	// é menor que a final.
-	hIni = parseInt(horaIni[0], 10);
-	hFim = parseInt(horaFim[0], 10);
-	if(hIni != hFim)
-		return hIni < hFim;
+	arrHoraFinal[0] = parseInt(arrHoraFinal[0]);
+	arrHoraFinal[1] = parseInt(arrHoraFinal[1]);
 
-	// Se as horas são iguais, verifica os minutos então.
-	mIni = parseInt(horaIni[1], 10);
-	mFim = parseInt(horaFim[1], 10);
-	if(mIni != mFim)
-		return mIni < mFim;
+	//Converte a hora e minuto para segundos
+	console.log("Array hora inicial " + arrHoraInicio[0]);
+	console.log("Array minutos inicial " + arrHoraInicio[1]);
+
+	console.log("Array hora Final " + arrHoraFinal[0]);
+	console.log("Array minutos Final " + arrHoraFinal[1]);
+
+	var hInicial = (arrHoraInicio[0] * 60) + arrHoraInicio[1];
+	var hFinal = (arrHoraFinal[0] * 60) + arrHoraFinal[1];
+	console.log("Minutos hora inicial " + hInicial);
+	console.log("Minutos hora Final " + hFinal);
+
+	//Verifica se a hora final é maior que a inicial
+	if ((hInicial > hFinal)) {
+		var diferencaHora = hInicial - hFinal
+	}else if (hFinal > hInicial){
+		var diferencaHora = hFinal - hInicial;
+	}
+
+	//Calcula diferenca de horas
+
+	console.log("Diferenca de horas " + diferencaHora);
+
+	//Converte os segundos para Hora e Minuto
+	var tempo = diferencaHora / (60 * 60);
+	var n =   tempo.toFixed(2);
+	arrTempo  = n.split('.');
+	hora = parseFloat(arrTempo[0]);
+	minuto = parseFloat(arrTempo[1]);
+	minuto = minuto * 60;
+	console.log(minuto);
+	console.log(n)
+	// Aqui divide o restante da hora, pois se não for inteiro, retornará um decimal, o minuto, será o
+	console.log(tempo);
 }
 
-function diferencaHoras(horaInicial, horaFinal)
-{
-	// Tratamento se a hora inicial é menor que a final
-	if( ! isHoraInicialMenorHoraFinal(horaInicial, horaFinal) )
-	{
-		aux = horaFinal;
-		horaFinal = horaInicial;
-		horaInicial = aux;
-	}
-	hIni = horaInicial.split(':');
-	hFim = horaFinal.split(':');
-	horasTotal = parseInt(hFim[0], 10) - parseInt(hIni[0], 10);
-	minutosTotal = parseInt(hFim[1], 10) - parseInt(hIni[1], 10);
-	if(minutosTotal < 0)
-	{
-		minutosTotal += 60; horasTotal -= 1;
-	}
-	horaFinal = completaZeroEsquerda(horasTotal) + ":" + completaZeroEsquerda(minutosTotal);
-	return horaFinal;
-}
+
 
 
 function pegarHora(){
@@ -342,6 +350,7 @@ saidaVeiculo("ADB-3240",pegarHora());
 imprimirDadosGerais();
 imprimirEstacionamento();
 console.log(pegarHora());
+hora("22:30", "10:16");
 //saidaVeiculo("ADB-3840","15:30");
 
 
