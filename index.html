@@ -233,55 +233,40 @@ if (estaNoLocal) {
 }
 
 //calculo de horas
-function hora(horaIncial, horaFinal){
-	//separa a hora dos minutos
+function calculadorHora(horaIncial, horaFinal){
+	//separa a hora dos minutos e adiciona no array
 	arrHoraInicio = horaIncial.split(':');
 	arrHoraFinal = horaFinal.split(':');
 
+  //converte a horaincial para inteiro e armazena na mesma posição do array
 	arrHoraInicio[0] = parseInt(arrHoraInicio[0]);
 	arrHoraInicio[1] = parseInt(arrHoraInicio[1]);
-
+  //converte a horaincial para inteiro e armazena na mesma posição do array
 	arrHoraFinal[0] = parseInt(arrHoraFinal[0]);
 	arrHoraFinal[1] = parseInt(arrHoraFinal[1]);
 
-	//Converte a hora e minuto para segundos
-	console.log("Array hora inicial " + arrHoraInicio[0]);
-	console.log("Array minutos inicial " + arrHoraInicio[1]);
-
-	console.log("Array hora Final " + arrHoraFinal[0]);
-	console.log("Array minutos Final " + arrHoraFinal[1]);
-
+	//calculo para transforma horas em minutos - formula [hora * 60 + minutos]
 	var hInicial = (arrHoraInicio[0] * 60) + arrHoraInicio[1];
 	var hFinal = (arrHoraFinal[0] * 60) + arrHoraFinal[1];
-	console.log("Minutos hora inicial " + hInicial);
-	console.log("Minutos hora Final " + hFinal);
 
 	//Verifica se a hora final é maior que a inicial
+  //e inverte as posições das variaveis para não obter valores negativos
 	if ((hInicial > hFinal)) {
 		var diferencaHora = hInicial - hFinal
 	}else if (hFinal > hInicial){
 		var diferencaHora = hFinal - hInicial;
 	}
+  //transforma minutos em horas formula [minutos/60]
+  var tempo = (diferencaHora / 60);
+  //diminui a quantidade de casas decimais, transforma para string e separa os valores a parti do "."
+  //armazenando os valores dentro do array "tempo".
+  tempo = tempo.toFixed(2).split('.');
+  //concatena as strings passando-as para o formato de hora
+  tempo = tempo[0] + ":" + tempo[1];
 
-	//Calcula diferenca de horas
-
-	console.log("Diferenca de horas " + diferencaHora);
-
-	//Converte os segundos para Hora e Minuto
-	var tempo = diferencaHora / (60 * 60);
-	var n =   tempo.toFixed(2);
-	arrTempo  = n.split('.');
-	hora = parseFloat(arrTempo[0]);
-	minuto = parseFloat(arrTempo[1]);
-	minuto = minuto * 60;
-	console.log(minuto);
-	console.log(n)
-	// Aqui divide o restante da hora, pois se não for inteiro, retornará um decimal, o minuto, será o
-	console.log(tempo);
+  //retorna o intervalo de tempo
+  return tempo;
 }
-
-
-
 
 function pegarHora(){
   //captura horario atual
@@ -350,7 +335,8 @@ saidaVeiculo("ADB-3240",pegarHora());
 imprimirDadosGerais();
 imprimirEstacionamento();
 console.log(pegarHora());
-hora("22:30", "10:16");
+console.log(calculadorHora("12:32", "22:43"));
+
 //saidaVeiculo("ADB-3840","15:30");
 
 
