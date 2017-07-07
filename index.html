@@ -20,6 +20,8 @@
 <section>
   <div class="container">
       <h3>Ticket System</h3>
+      <br>
+      <h4>Estacionamento</h4>
       <div id="dadosGerais" class="">
         <table class="table">
           <thead>
@@ -27,9 +29,27 @@
               <th>Placa</th>
               <th>Categoria</th>
               <th>Vinculo</th>
+              <th>Entrada</th>
+              <th>Saida</th>
+              <th>Tempo de Permanencia</th>
+            </tr>
+          </thead>
+          <tbody>
+          <!-- dados  -->
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <h4>Estacionamento</h4>
+      <br>
+      <div id="estacionamento" class="">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Categoria</th>
+              <th>Vinculo</th>
               <th>Horario de Entrada</th>
-              <th>Horario de Saida</th>
-              <th>Valor Total</th>
             </tr>
           </thead>
           <tbody>
@@ -211,8 +231,23 @@ if (estaNoLocal) {
 
 }
 
+function pegarHora(){
+  //captura horario atual
+  var tempo = new Date();
+  var hora = tempo.getHours();
+  var min  = tempo.getMinutes();
+  var str_hora = hora + ':' + min;
+  return str_hora;
+}
+
+
+function confirmarEntrada(){
+
+}
+
+
 //Metodo para imprimir dados na tabela
-function imprimirResultado(){
+function imprimirDadosGerais(){
   i = 0;
   while (i < arrVeiculos.length) {
     $("#dadosGerais tbody").append(
@@ -222,10 +257,31 @@ function imprimirResultado(){
         '<td>'+ arrVeiculos[i][2] +'</td>'+
         '<td>'+ arrVeiculos[i][3] +'</td>'+
         '<td>'+ arrVeiculos[i][4] +'</td>'+
+        '<td>'+ '---- ' + '</td>'+
       '</tr>'
     )
     i++
   }
+}
+//Metodo para imprimir dados dos carros no Estacionamento
+function imprimirEstacionamento(){
+  try {
+    i = 0;
+    while (i < arrVeiculos.length) {
+      $("#estacionamento tbody").append(
+        '<tr>' +
+          '<td>'+ arrVeiculosNoEstacionamento[i][0] +'</td>'+
+          '<td>'+ arrVeiculosNoEstacionamento[i][1] +'</td>'+
+          '<td>'+ arrVeiculosNoEstacionamento[i][2] +'</td>'+
+          '<td>'+ arrVeiculosNoEstacionamento[i][3] +'</td>'+
+        '</tr>'
+      )
+      i++
+    }
+  } catch (e) {
+    console.log("alguns itens não podem ser imprimidos" + e);
+  }
+
 }
 
 //Registros
@@ -233,7 +289,9 @@ function imprimirResultado(){
 registroEntrada("ADB-3240","22:30");
 registroEntrada("ADB-3840","20:30");
 saidaVeiculo("ADB-3240","12:30");
-imprimirResultado();
+imprimirDadosGerais();
+imprimirEstacionamento();
+console.log(pegarHora());
 //saidaVeiculo("ADB-3840","15:30");
 
 
