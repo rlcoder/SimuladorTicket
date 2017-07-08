@@ -110,7 +110,6 @@ var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
        arrVeiculosNoEstacionamento.push(arrVeiculos[indexVeiculo]);
        console.log("Veiculo Localizado:");
        console.log(arrVeiculos[indexVeiculo]);
-       return arrVeiculos[indexVeiculo];
     //se não exiba alguma mensagem ou metodo para cadastrar um veiculo
     }else {
        console.log("O Veiculo não existe, chama metodo de cadastrar");
@@ -137,6 +136,8 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
     //incrementa a variavel
     i++;
   }
+  console.log('VEICULO NO LOCAL ? ');
+  console.log(estaNoLocal);
   //se o veiculo estiver no estacionamento (estaNoLocal = true) faça..
   if (estaNoLocal) {
     console.log("Veiculo Localizado no Estacionamento:");
@@ -338,8 +339,9 @@ $(document).ready(function(){
     });
 
     $('#btnConfirmSaida').on('click', function(){
-      var getFormPlaca = $('inputSaida').val();
+      var getFormPlaca = $('#inputSaida').val();
       console.log(getFormPlaca);
+      alert(getFormPlaca);
       confirmaSaida(getFormPlaca);
     });
 
