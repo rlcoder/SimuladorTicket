@@ -1,13 +1,6 @@
 
 var _retornoPesquisa = new Array();
-var arrVeiculosNoEstacionamento  = new Array()
-//define um valor zero para todos os vinculo
-_valoresVinculo = new Object();
-_valoresVinculo.aluno = 0;
-_valoresVinculo.funcionario = 0;
-_valoresVinculo.professor = 0;
-_valoresVinculo.visitante = 0;
-
+var arrVeiculosNoEstacionamento  = new Array();
 //Cadastrando veiculos em array Multidimensional
 var arrVeiculos =  new Array(
   ['ADB-3340','1A', 'aluno', '00:00', '00:00' ],
@@ -25,29 +18,57 @@ _categoriaVeiculo.cat3C = 1.50;
 _categoriaVeiculo.cat4D = 2.00;
 
 //Adiciona os valores de descontos de acordo com o vinculo com a universidade
-function vinculoUniversidade(tempo){
+function vinculoUniversidade(tempo, vinculo){
+  //separa o valor recebido e armazena um array na propria variavel
+  var tempo = tempo.split(':');
+  //pega somente as horas e armazena na variavel
+  var tempo = parseInt(tempo[0]);
 
   //até 4 horas de permanencia
   if (tempo <=4){
-    _valoresVinculo.aluno = 20;
-    _valoresVinculo.funcionario = 10;
-    _valoresVinculo.professor = 10;
-    _valoresVinculo.visitante = 0;
+    //verifica o vinculo e retorna o valor do objeto
+    if (vinculo == 'aluno'){
+      return 20;
+    }else if (vinculo == 'funcionario'){
+      return 10;
+    }else if (vinculo == 'professor'){
+      return 10;
+    }else {
+      return 0;
+    }
+
   //entre 4:1 e 6 horas de permanencia
-}else if  (tempo >4 && tempo <=6) {
-    _valoresVinculo.aluno = 30;
-    _valoresVinculo.funcionario = 10;
-    _valoresVinculo.professor = 10;
-    _valoresVinculo.visitante = 0;
+  }else if  (tempo >4 && tempo <=6) {
+    //verifica o vinculo e retorna o valor referente ao debito
+    if (vinculo == 'aluno'){
+      return 30;
+    }else if (vinculo == 'funcionario') {
+      return 10;
+    }else if (vinculo == 'professor'){
+      return 10;
+    }else {
+      return  0;
+    }
+
   //mais de 6 horas de permanencia
-} else if (tempo >6) {
-    _valoresVinculo.aluno = 40;
-    _valoresVinculo.funcionario = 40;
-    _valoresVinculo.professor = 40;
-    _valoresVinculo.visitante = 0;
-  }
-  return _valoresVinculo;
+  } else if (tempo >6) {
+    //verifica o vinculo e retorna o valor do objeto
+    if (vinculo == 'aluno'){
+      return 40;
+    }else if (vinculo == 'funcionario') {
+      return 40;
+    }else if (vinculo == 'professor'){
+      return 40;
+    }else {
+      return 0;
+    }
+
+    }
 }
+
+console.log('METODO PARA VERIFICAR VINCULO E DEFINIR PORCENTAGEM');
+console.log(vinculoUniversidade("7:02", 'aluno'));
+
 
 //Metodo para subtrair a porcentagem de vinculo
 function calculoPorcentagem(valorTotalDeHoras, objComPorcentagem ){
@@ -225,8 +246,12 @@ function confirmaEntrada(placa, hora){
     imprimirEstacionamento();
 }
 
-//Registros
+function confirmaSaida(placa){
+  saidaVeiculo(placa, pegarHora());
+}
 
+
+//Registros
 registroEntrada("ADB-3240","22:30");
 registroEntrada("ADB-3840","20:30");
 saidaVeiculo("ADB-3240",pegarHora());
@@ -253,6 +278,11 @@ $(document).ready(function(){
       console.log(getFormPlaca);
       confirmaEntrada(getFormPlaca, getFormHora);
 
+    });
+
+    $('#btnCnfirmSaida').on('click', function(){
+      var getFormPlaca = $('idSaida').val();
+      confirmaSaida(getFormPlaca);
     });
 
   function validarPlaca(placa){
