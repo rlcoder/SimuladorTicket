@@ -91,6 +91,7 @@ var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
        arrVeiculosNoEstacionamento.push(arrVeiculos[indexVeiculo]);
        console.log("Veiculo Localizado:");
        console.log(arrVeiculos[indexVeiculo]);
+       return arrVeiculos[indexVeiculo];
     //se não exiba alguma mensagem ou metodo para cadastrar um veiculo
     }else {
        console.log("O Veiculo não existe, chama metodo de cadastrar");
@@ -183,9 +184,6 @@ function calculador(categoria, vinculo, entrada, saida){
 
 }
 
-//Metodo para confirma a saida do veiculo e realizar calculo
-
-
 //Metodo para imprimir dados na tabela
 function imprimirDadosGerais(){
   i = 0;
@@ -205,9 +203,8 @@ function imprimirDadosGerais(){
 }
 //Metodo para imprimir dados dos carros no Estacionamento
 function imprimirEstacionamento(){
-  try {
     i = 0;
-    while (i < arrVeiculos.length) {
+    while (i < arrVeiculosNoEstacionamento.length) {
       $("#estacionamento tbody").append(
         '<tr>' +
           '<td>'+ arrVeiculosNoEstacionamento[i][0] +'</td>'+
@@ -218,10 +215,14 @@ function imprimirEstacionamento(){
       )
       i++
     }
-  } catch (e) {
-    console.log("alguns itens não podem ser imprimidos" + e);
-  }
 
+
+}
+
+function confirmaEntrada(placa, hora){
+    registroEntrada(placa, hora);
+    $('#estacionamento tbody tr').remove();
+    imprimirEstacionamento();
 }
 
 //Registros
@@ -235,8 +236,6 @@ console.log(pegarHora());
 console.log(calculadorHora("12:32", "22:43"));
 
 //saidaVeiculo("ADB-3840","15:30");
-
-
 console.log(vinculoUniversidade(6));
 console.log(_categoriaVeiculo);
 console.log("registros:");
@@ -244,3 +243,22 @@ console.log("Carros no Estacionamento");
 console.log(arrVeiculosNoEstacionamento);
 console.log("Carro com hora de saida Registrada:");
 console.log(arrVeiculos);
+
+$(document).ready(function(){
+
+    $('#btnConfirmEntrada').on('click', function(){
+      var getFormHora = $('#horaEntrada').val();
+      var getFormPlaca = $('#idEntrada').val();
+      console.log(getFormHora);
+      console.log(getFormPlaca);
+      confirmaEntrada(getFormPlaca, getFormHora);
+
+    });
+
+  function validarPlaca(placa){
+    var er = /[a-z]{3}-?\d{4}/gim;
+    er.lastIndex = 0;
+    return er.test( placa);
+  }
+
+});
