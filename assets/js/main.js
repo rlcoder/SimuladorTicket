@@ -3,10 +3,10 @@ var _retornoPesquisa = new Array();
 var arrVeiculosNoEstacionamento  = new Array();
 //Cadastrando veiculos em array Multidimensional
 var arrVeiculos =  new Array(
-  ['ADB-3340','1A', 'aluno', '00:00', '00:00','00:00' ],
-  ['ACD-3740','2B', 'funcionario', '00:00', '00:00','00:00' ],
-  ['ADB-3240','3C', 'professor', '00:00', '00:00','00:00'],
-  ['ADB-3840','4D', 'visitante', '00:00', '00:00','00:00' ]
+  ['ADB-3340','1A', 'aluno', '00:00', '00:00','00:00', '0,00' ],
+  ['ACD-3740','2B', 'funcionario', '00:00', '00:00','00:00', '0,00'  ],
+  ['ADB-3240','3C', 'professor', '00:00', '00:00','00:00', '0,00' ],
+  ['ADB-3840','4D', 'visitante', '00:00', '00:00','00:00', '0,00'  ]
 )
 
 console.log(arrVeiculos);
@@ -124,9 +124,10 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
   console.log(veiculoExiste);
   console.log(indexVeiculo);
 
-  var i = 0;//Percorre o array e verifica se o veiculo está no array do estacionamento
+  //Percorre o array e verifica se o veiculo está no array do estacionamento
+  var i = 0;
   while ( i < arrVeiculosNoEstacionamento.length) {
-    //verifica se existe o valor dentro do array do estacionamento e armazena na variavel um valor boolean
+    //verifica se existe o valor dentro do array do estacionamento e armazena na variavel um valor boolean.
     estaNoLocal = arrVeiculosNoEstacionamento[i].includes(placaVeiculo);
     indexArrEstacionamento = i;//adiciona a posição  em que o valor foi encontrado
     //se o valor no  array foi encontrado pare o loop
@@ -136,7 +137,6 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
     //incrementa a variavel
     i++;
   }
-
   //se o veiculo estiver no estacionamento (estaNoLocal = true) faça..
   if (estaNoLocal) {
     console.log("Veiculo Localizado no Estacionamento:");
@@ -148,9 +148,20 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
     //captura os horarios no array e armazena na variavel
     var getHoraEntrada = arrVeiculos[indexVeiculo][3];
     var getHoraSaida = arrVeiculos[indexVeiculo][4];
-    /*Armazena no array o retorno do metodo calculadorHora(),
+    /*Armazena na variavel o retorno do metodo calculadorHora(),
     que por sua vez calcula o tempo de permanencia no local*/
-    arrVeiculos[indexVeiculo][5] = calculadorHora(getHoraEntrada, getHoraSaida);
+    var permanenciaEstacionamento = calculadorHora(getHoraEntrada, getHoraSaida);
+    //armazena no array o tempo de permanencia no Estacionamento
+    arrVeiculos[indexVeiculo][5] = permanenciaEstacionamento;
+    /*armazena na variavel descontos o retorno do metodo vinculoUniversidade(),
+    que por sua vez retorna o valor de desconto.
+    */
+    var descontos = vinculoUniversidade(permanenciaEstacionamento, arrVeiculos[indexVeiculo][2]);
+    console.log(descontos);
+    //calcula o valor a pagar através do metodo calculadorValor()
+    var valor = calculadorValor(permanenciaEstacionamento, arrVeiculos[indexVeiculo][1] , descontos);
+    console.log(valor);
+    arrVeiculos[indexVeiculo][7] = valor;
 
     //se não exiba alguma mensagem informando que o veiculo não está no Estacionamento
     }else {
@@ -211,7 +222,7 @@ function calculoPorcentagem(valor, porcentagem ){
   total = valor-(porcentagem*result);
   return total
 }
-//Metodo para subtrair a porcentagem  do valor recebido.
+//Metodo para calcular o valor referente ao tempo no estacionamento
 function calculadorValor(tempo, categoria, desconto){
   //armazena na propria variavel um array separando horas de minutos
   var tempo = tempo.split(':');
@@ -239,7 +250,6 @@ function calculadorValor(tempo, categoria, desconto){
   console.log(valorComDesconto);
   return valorComDesconto;
 }
-calculadorValor('15:23', '2B', 20);
 
 
 function calculador(categoria, vinculo, entrada, saida){
@@ -258,6 +268,7 @@ function imprimirDadosGerais(){
         '<td>'+ arrVeiculos[i][3] +'</td>'+
         '<td>'+ arrVeiculos[i][4] +'</td>'+
         '<td>'+ arrVeiculos[i][5] + '</td>'+
+        '<td>'+ arrVeiculos[i][6] + '</td>'+
       '</tr>'
     )
     i++
@@ -284,11 +295,18 @@ function imprimirEstacionamento(){
 function confirmaEntrada(placa, hora){
     registroEntrada(placa, hora);
     $('#estacionamento tbody tr').remove();
+    $('#dadosGerais tbody tr').remove();
     imprimirEstacionamento();
+    imprimirDadosGerais()
 }
 
 function confirmaSaida(placa){
   saidaVeiculo(placa, pegarHora());
+  $('#estacionamento tbody tr').remove();
+  $('#dadosGerais tbody tr').remove();
+  imprimirEstacionamento();
+  imprimirDadosGerais()
+
 }
 
 
@@ -320,7 +338,7 @@ $(document).ready(function(){
 
     });
 
-    $('#btnCnfirmSaida').on('click', function(){
+    $('#btnConfirmSaida').on('click', function(){
       var getFormPlaca = $('idSaida').val();
       confirmaSaida(getFormPlaca);
     });
