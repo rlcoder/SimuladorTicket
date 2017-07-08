@@ -3,10 +3,10 @@ var _retornoPesquisa = new Array();
 var arrVeiculosNoEstacionamento  = new Array();
 //Cadastrando veiculos em array Multidimensional
 var arrVeiculos =  new Array(
-  ['ADB-3340','1A', 'aluno', '00:00', '00:00' ],
-  ['ACD-3740','2B', 'funcionario', '00:00', '00:00'],
-  ['ADB-3240','3C', 'professor', '00:00', '00:00' ],
-  ['ADB-3840','4D', 'visitante', '00:00', '00:00' ]
+  ['ADB-3340','1A', 'aluno', '00:00', '00:00','00:00' ],
+  ['ACD-3740','2B', 'funcionario', '00:00', '00:00','00:00' ],
+  ['ADB-3240','3C', 'professor', '00:00', '00:00','00:00'],
+  ['ADB-3840','4D', 'visitante', '00:00', '00:00','00:00' ]
 )
 
 console.log(arrVeiculos);
@@ -62,13 +62,22 @@ function vinculoUniversidade(tempo, vinculo){
     }else {
       return 0;
     }
-
     }
 }
 
-console.log('METODO PARA VERIFICAR VINCULO E DEFINIR PORCENTAGEM');
-console.log(vinculoUniversidade("7:02", 'aluno'));
-
+//Metodo para verificar categoria
+function verificaCategoria(categoria){
+  categoria = categoria.toUpperCase();
+  if (categoria == "1A"){
+    return _categoriaVeiculo.cat1A;
+  }else if (categoria == "2B") {
+    return _categoriaVeiculo.cat2B;
+  }else if (categoria == '3C') {
+    return _categoriaVeiculo.cat3C;
+  }else if (categoria == '4D') {
+    return _categoriaVeiculo.cat4D;
+  }
+}
 
 //Metodo para subtrair a porcentagem de vinculo
 function calculoPorcentagem(valorTotalDeHoras, objComPorcentagem ){
@@ -97,7 +106,6 @@ function pesquisarVeiculo(placaVeiculo){
        //incrementa a variavel
        i++;
      }
-
       return _retornoPesquisa = [veiculoExiste, indexVeiculo];
 }
 
@@ -117,41 +125,48 @@ var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
     }else {
        console.log("O Veiculo não existe, chama metodo de cadastrar");
     }
-
 }
+
 //Metodo para registrar saida do veiculo do Estacionamento
 function saidaVeiculo(placaVeiculo, horarioSaida){
-var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
-var indexVeiculo = pesquisarVeiculo(placaVeiculo)[1];
-console.log(veiculoExiste);
-console.log(indexVeiculo);
+  var veiculoExiste = pesquisarVeiculo(placaVeiculo)[0];
+  var indexVeiculo = pesquisarVeiculo(placaVeiculo)[1];
+  console.log(veiculoExiste);
+  console.log(indexVeiculo);
 
-var i = 0;//Percorre o array e verifica se o veiculo está no array do estacionamento
-while ( i < arrVeiculosNoEstacionamento.length) {
-  //verifica se existe o valor dentro do array do estacionamento e armazena na variavel um valor boolean
-  estaNoLocal = arrVeiculosNoEstacionamento[i].includes(placaVeiculo);
-  indexArrEstacionamento = i;//adiciona a posição  em que o valor foi encontrado
-  //se o array foi encontrado para o loop
-  if (estaNoLocal == true){
-    break;
+  var i = 0;//Percorre o array e verifica se o veiculo está no array do estacionamento
+  while ( i < arrVeiculosNoEstacionamento.length) {
+    //verifica se existe o valor dentro do array do estacionamento e armazena na variavel um valor boolean
+    estaNoLocal = arrVeiculosNoEstacionamento[i].includes(placaVeiculo);
+    indexArrEstacionamento = i;//adiciona a posição  em que o valor foi encontrado
+    //se o valor no  array foi encontrado pare o loop
+    if (estaNoLocal == true){
+      break;
+    }
+    //incrementa a variavel
+    i++;
   }
-  //incrementa a variavel
-  i++;
-}
 
-//se var estaNoLocal = true , adicione...
-if (estaNoLocal) {
-  console.log("Veiculo Localizado no Estacionamento:");
-  console.log(arrVeiculosNoEstacionamento[indexArrEstacionamento]);
-  //remove o carro que está no array do Estacionamento
-  arrVeiculosNoEstacionamento.splice(indexArrEstacionamento,1);
-  //Define o horario De Saida
-  arrVeiculos[indexVeiculo][4]= horarioSaida
+  //se o veiculo estiver no estacionamento (estaNoLocal = true) faça..
+  if (estaNoLocal) {
+    console.log("Veiculo Localizado no Estacionamento:");
+    console.log(arrVeiculosNoEstacionamento[indexArrEstacionamento]);
+    //remove o carro que está no array do Estacionamento
+    arrVeiculosNoEstacionamento.splice(indexArrEstacionamento,1);
+    //Define o horario De Saida no array padrão
+    arrVeiculos[indexVeiculo][4]= horarioSaida;
+    //captura os horarios no array e armazena na variavel
+    var getHoraEntrada = arrVeiculos[indexVeiculo][3];
+    var getHoraSaida = arrVeiculos[indexVeiculo][4];
+    /*Armazena no array o retorno do metodo calculadorHora(),
+    que por sua vez calcula o tempo de permanencia no local*/
+    arrVeiculos[indexVeiculo][5] = calculadorHora(getHoraEntrada, getHoraSaida);
 
-//se não exiba alguma mensagem informando que o veiculo não está no Estacionamento
-}else {
-  console.log("O este veiculo não está no Estacionamento");
-}
+    //se não exiba alguma mensagem informando que o veiculo não está no Estacionamento
+    }else {
+      alert('Veiculo não encontrado');
+      console.log("O este veiculo não está no Estacionamento");
+    }
 
 }
 
@@ -200,6 +215,10 @@ function pegarHora(){
   return str_hora;
 }
 
+function calculadorValor(tempo){
+
+}
+
 
 function calculador(categoria, vinculo, entrada, saida){
 
@@ -216,7 +235,7 @@ function imprimirDadosGerais(){
         '<td>'+ arrVeiculos[i][2] +'</td>'+
         '<td>'+ arrVeiculos[i][3] +'</td>'+
         '<td>'+ arrVeiculos[i][4] +'</td>'+
-        '<td>'+ '---- ' + '</td>'+
+        '<td>'+ arrVeiculos[i][5] + '</td>'+
       '</tr>'
     )
     i++
@@ -252,8 +271,8 @@ function confirmaSaida(placa){
 
 
 //Registros
-registroEntrada("ADB-3240","22:30");
-registroEntrada("ADB-3840","20:30");
+registroEntrada("ADB-3240","10:30");
+registroEntrada("ADB-3840","12:30");
 saidaVeiculo("ADB-3240",pegarHora());
 imprimirDadosGerais();
 imprimirEstacionamento();
@@ -261,7 +280,6 @@ console.log(pegarHora());
 console.log(calculadorHora("12:32", "22:43"));
 
 //saidaVeiculo("ADB-3840","15:30");
-console.log(vinculoUniversidade(6));
 console.log(_categoriaVeiculo);
 console.log("registros:");
 console.log("Carros no Estacionamento");
