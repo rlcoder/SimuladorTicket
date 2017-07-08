@@ -161,7 +161,7 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
     //calcula o valor a pagar através do metodo calculadorValor()
     var valor = calculadorValor(permanenciaEstacionamento, arrVeiculos[indexVeiculo][1] , descontos);
     console.log(valor);
-    arrVeiculos[indexVeiculo][7] = valor;
+    arrVeiculos[indexVeiculo][6] = valor;
 
     //se não exiba alguma mensagem informando que o veiculo não está no Estacionamento
     }else {
@@ -170,6 +170,7 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
     }
 
 }
+
 //captura horario atual
 function pegarHora(){
   var tempo = new Date();
@@ -252,10 +253,6 @@ function calculadorValor(tempo, categoria, desconto){
 }
 
 
-function calculador(categoria, vinculo, entrada, saida){
-
-}
-
 //Metodo para imprimir dados na tabela
 function imprimirDadosGerais(){
   i = 0;
@@ -292,6 +289,7 @@ function imprimirEstacionamento(){
 
 }
 
+//Metodo de confirmação de entrada de veiculo, com tratamento de erros(ainda não adcionado)
 function confirmaEntrada(placa, hora){
     registroEntrada(placa, hora);
     $('#estacionamento tbody tr').remove();
@@ -300,12 +298,13 @@ function confirmaEntrada(placa, hora){
     imprimirDadosGerais()
 }
 
+//Metodo para confirma saida de veiculos com tratamento de erros(ainda não adicionado)
 function confirmaSaida(placa){
   saidaVeiculo(placa, pegarHora());
   $('#estacionamento tbody tr').remove();
   $('#dadosGerais tbody tr').remove();
   imprimirEstacionamento();
-  imprimirDadosGerais()
+  imprimirDadosGerais();
 
 }
 
@@ -339,7 +338,8 @@ $(document).ready(function(){
     });
 
     $('#btnConfirmSaida').on('click', function(){
-      var getFormPlaca = $('idSaida').val();
+      var getFormPlaca = $('inputSaida').val();
+      console.log(getFormPlaca);
       confirmaSaida(getFormPlaca);
     });
 
