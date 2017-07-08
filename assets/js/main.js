@@ -66,8 +66,8 @@ function vinculoUniversidade(tempo, vinculo){
 }
 
 //Metodo para verificar categoria
-function verificaCategoria(categoria){
-  categoria = categoria.toUpperCase();
+function verificarCategoria(categoria){
+  var categoria = categoria.toUpperCase();
   if (categoria == "1A"){
     return _categoriaVeiculo.cat1A;
   }else if (categoria == "2B") {
@@ -77,16 +77,6 @@ function verificaCategoria(categoria){
   }else if (categoria == '4D') {
     return _categoriaVeiculo.cat4D;
   }
-}
-
-//Metodo para subtrair a porcentagem de vinculo
-function calculoPorcentagem(valorTotalDeHoras, objComPorcentagem ){
-  var valor = valorTotalDeHoras;
-  var porcentagem = objComPorcentagem;
-  var result, total;
-  result = valor/100;
-  total = valor-(porcentagem*result);
-  return total
 }
 
 //Metodo para pesquisar Veiculo no Array
@@ -169,6 +159,14 @@ function saidaVeiculo(placaVeiculo, horarioSaida){
     }
 
 }
+//captura horario atual
+function pegarHora(){
+  var tempo = new Date();
+  var hora = tempo.getHours();
+  var min  = tempo.getMinutes();
+  var str_hora = hora + ':' + min;
+  return str_hora;
+}
 
 //calculo de horas
 function calculadorHora(horaIncial, horaFinal){
@@ -206,18 +204,42 @@ function calculadorHora(horaIncial, horaFinal){
   return tempo;
 }
 
-function pegarHora(){
-  //captura horario atual
-  var tempo = new Date();
-  var hora = tempo.getHours();
-  var min  = tempo.getMinutes();
-  var str_hora = hora + ':' + min;
-  return str_hora;
+//Metodo para subtrair a porcentagem  do valor recebido.
+function calculoPorcentagem(valor, porcentagem ){
+  var result, total;
+  result = valor/100;
+  total = valor-(porcentagem*result);
+  return total
 }
+//Metodo para subtrair a porcentagem  do valor recebido.
+function calculadorValor(tempo, categoria, desconto){
+  //armazena na propria variavel um array separando horas de minutos
+  var tempo = tempo.split(':');
+  //armazena na variavel os valores do array
+  hora = parseInt(tempo[0]);
+  minuto = parseInt(tempo[1]);
+  console.log(hora+ "HORA CONVERTIDA" +minuto);
 
-function calculadorValor(tempo){
-
+  totalMinutos = (hora*60) + minuto;
+  console.log(totalMinutos);
+  //verifica a categoria e armazena o valor da hora na variavel
+  var valorDaHora = verificarCategoria(categoria);
+  //converte horas e minutos para minutos
+  var valorDoMinuto = valorDaHora/60;
+  //calcula o valor a pagar formula [valor do minutos * total de minutos]
+  var valorApagar = valorDoMinuto * totalMinutos;
+  //armazena na propria variavel o valor convertido em float depois de diminuir as casas decimais (toFixed).
+  valorApagar = parseFloat(valorApagar.toFixed(2));
+  //realiza o desconto da porcentagem através do metodo calculoPorcentagem()
+  var valorComDesconto = calculoPorcentagem(valorApagar, desconto);
+  //diminui a quantidade de casas decimais e retornando uma string com o valor a pagar
+  valorComDesconto = valorComDesconto.toFixed(2);
+  console.log(valorDaHora);
+  console.log(valorApagar);
+  console.log(valorComDesconto);
+  return valorComDesconto;
 }
+calculadorValor('15:23', '2B', 20);
 
 
 function calculador(categoria, vinculo, entrada, saida){
